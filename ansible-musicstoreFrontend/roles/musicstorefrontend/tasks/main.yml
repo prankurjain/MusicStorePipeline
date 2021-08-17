@@ -1,0 +1,35 @@
+---
+# tasks file for musicstorefrontend
+
+- name: Install nginx server
+  apt: 
+    name: nginx
+    state: latest
+- name: Removing default file from sites_available
+  file:
+    path: /etc/nginx/sites-avalable/default
+    state: absent
+- name: Removing default file from sites_enabled
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+- name: Copy config file in sites available
+  copy:
+    src: ./files/code
+    dest: /etc/nginx/sites-avalaible/code
+- name: Create symlink
+  file:
+    src: /etc/nginx/sites-avalaible/code
+    dest: /etc/nginx/sites-enabled/
+    state: link
+- name: copy index.html file
+  copy:
+    src: ./files/index.html
+    dest: /var/www/html/index.html
+
+- name: Start nginx
+  service:
+    name: nginx
+    state: started
+
+

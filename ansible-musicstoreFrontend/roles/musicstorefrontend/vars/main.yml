@@ -1,0 +1,4 @@
+---
+# vars file for musicstorefrontend
+
+nginx_path: "/etc/nginx"
