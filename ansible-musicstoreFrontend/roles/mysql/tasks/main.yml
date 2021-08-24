@@ -1,0 +1,57 @@
+---
+# tasks file for mysql
+- name: Install mysql server
+  apt:
+    name: mysql-server
+    state: present
+- name: install pip3
+  apt: name=python3-pip state=present 
+- name: Make sure pymysql is present
+  become: true # needed if the other tasks are not played as root
+  pip:
+    name: pymysql
+    state: present
+- name: Install python-pymysql
+  become: true
+  apt:
+    name: python3-pymysql
+    state: present
+- name: start mysql service
+  shell: "service mysql start"
+- name: Ensure mysql is running
+  service:
+    name: mysql
+    state: started
+    enabled: true
+- name: create database user
+  mysql_user:
+    name: root
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    host: "{{ item }}"
+    password: prankur
+    login_user: root
+    login_password: prankur
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+  with_items:  
+  - "{{ ansible_hostname }}"  
+  - 127.0.0.1  
+  - ::1  
+  - localhost
+    #- name: Create a new database with name 'bobdata'
+    #mysql_db:
+    #name: bobdata
+    #login_user: root 
+    #login_password: prankur  
+    #state: present
+    #- name: Create sample data for database
+    #copy: 
+    #src: ./../files/sample.sql
+    #dest: /var/www/db/sample.sql
+    #- name: Import data
+    #mysql_db:
+    #name: bobdata
+      #target: /var/www/db/sample.sql
+      #state: import
+      #login_user: root
+      #login_password: prankur

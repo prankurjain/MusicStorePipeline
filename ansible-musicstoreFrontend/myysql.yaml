@@ -2,5 +2,4 @@
   name: "Music store"
   become: yes
   roles:
-  - musicstorebackend
-
+  - mysql

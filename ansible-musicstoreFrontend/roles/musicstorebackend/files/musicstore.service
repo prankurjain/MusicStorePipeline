@@ -1,0 +1,12 @@
+[Unit]
+Description=A spring boot application for music store
+After=syslog.target
+
+[Service]
+User=pj
+ExecStart=/var/www/project/MusicStoreApp.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+

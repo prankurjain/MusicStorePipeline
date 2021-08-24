@@ -1,0 +1,30 @@
+---
+# tasks file for musicstorebackend
+- name: Project Directory
+  file: path=/var/www/project state=directory
+
+- name: Install Default JDK 1.8 
+  apt: name=default-jdk state=present
+
+- name: Deploy War File
+  copy: src=files/MusicStoreApp.jar dest=/var/www/project/MusicStoreApp.jar
+
+- name: Give insecure permissions to an existing file
+  ansible.builtin.file:
+    path: /var/www/project/MusicStoreApp.jar
+    mode: '777'    
+
+- name: Deploy Config file
+  copy:
+    src: files/musicstore.service
+    dest: /etc/systemd/system/musicstore.service
+- name: Enable Service
+  systemd:
+    name: musicstore
+    enabled: yes
+- name: Start Service 
+  service:
+    name: musicstore 
+    state: started
+      #- name: Start Service 
+      # shell: "nohup java -jar /var/www/project/MusicStoreApp.jar"

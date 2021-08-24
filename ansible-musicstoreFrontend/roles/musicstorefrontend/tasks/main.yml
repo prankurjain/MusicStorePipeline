@@ -7,7 +7,7 @@
     state: latest
 - name: Removing default file from sites_available
   file:
-    path: /etc/nginx/sites-avalable/default
+    path: /etc/nginx/sites-available/default
     state: absent
 - name: Removing default file from sites_enabled
   file:
@@ -16,16 +16,16 @@
 - name: Copy config file in sites available
   copy:
     src: ./files/code
-    dest: /etc/nginx/sites-avalaible/code
+    dest: /etc/nginx/sites-available/code
 - name: Create symlink
   file:
-    src: /etc/nginx/sites-avalaible/code
-    dest: /etc/nginx/sites-enabled/
+    src: /etc/nginx/sites-available/code
+    dest: /etc/nginx/sites-enabled/code
     state: link
 - name: copy index.html file
   copy:
-    src: ./files/index.html
-    dest: /var/www/html/index.html
+    src: ./files/MusicStore
+    dest: /var/www/
 
 - name: Start nginx
   service:
