@@ -1,5 +1,44 @@
 ---
 # tasks file for musicstorefrontend
+# - name : Apt get update
+#   shell: apt update
+
+# - name : Apt get update
+#   shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  
+# - name : source bashrc
+#   # sudo: no   
+#   shell: source ~/.bashrc 
+#   args:
+#     executable: /bin/bash
+
+# - name: bashrc
+#   shell: source ~/.bashrc
+
+# - name: install node
+#   shell: sudo nvm install v14.10.0
+#   args:
+#     chdir: "/root/"
+
+# - name: Install node js
+#   apt:
+#     name: nodejs
+#     state: latest
+
+- shell: node -v
+  register: shellout2
+- debug: var=shellout2.stdout
+
+# - name: install npm
+  # apt:
+  #   name: npm
+  #   state: present
+
+- name: Install Angular.js
+  npm:
+    name: "@angular/cli"
+    global: yes
+    state: present
 
 - name: Install nginx server
   apt: 
@@ -7,7 +46,7 @@
     state: latest
 - name: Removing default file from sites_available
   file:
-    path: /etc/nginx/sites-avalable/default
+    path: /etc/nginx/sites-available/default
     state: absent
 - name: Removing default file from sites_enabled
   file:
@@ -16,20 +55,62 @@
 - name: Copy config file in sites available
   copy:
     src: ./files/code
-    dest: /etc/nginx/sites-avalaible/code
+    dest: /etc/nginx/sites-available/code
 - name: Create symlink
   file:
-    src: /etc/nginx/sites-avalaible/code
-    dest: /etc/nginx/sites-enabled/
+    src: /etc/nginx/sites-available/code
+    dest: /etc/nginx/sites-enabled/code
     state: link
+
+- name : Copy local url ts file in files folder
+  copy:
+    src: "{{playbook_dir}}/../terraform/deployments/local_url.ts"
+    dest: "{{role_path}}/files/"
+
+- name : Copy local url ts file in angular folder
+  copy:
+    src: "{{role_path}}/files/local_url.ts"
+    dest: "{{playbook_dir}}/../NewMusicStoreFrontEnd/src/dto/"
+
+
+# - name: Copy ts file to angualar frontend directory
+#   copy:
+#     src: ./files/local_url.ts
+#     dest: ../../../NewMusicStoreFrontEnd/src/dto/local_url.ts
+
+- shell: pwd
+  register: shellout2
+- debug: var=shellout2.stdout
+
+
+  #- name: Run ng build
+  #shell: "npm run prod-build --prefix {{playbook_dir}}/../NewMusicStoreFrontEnd/"
+  
+- name: ng build command
+  local_action: ansible.builtin.command npm run prod-build --prefix {{playbook_dir}}/../NewMusicStoreFrontEnd/ 
+  # shell: npm run prod-build --prefix .
+  # 
+  # args:
+  #   chdir: "{{playbook_dir}}/../NewMusicStoreFrontEnd/"
+
+- name : Copy Music Store folder in files directory
+  copy:
+    src: "{{playbook_dir}}/../NewMusicStoreFrontEnd/dist/MusicStore"
+    dest: "{{role_path}}/files/"
+
 - name: copy index.html file
   copy:
-    src: ./files/index.html
-    dest: /var/www/html/index.html
+    src: ./files/MusicStore
+    dest: /var/www/
 
 - name: Start nginx
   service:
     name: nginx
     state: started
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
 
 

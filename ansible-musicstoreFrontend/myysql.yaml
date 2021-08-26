@@ -1,0 +1,5 @@
+- hosts: all
+  name: "Music store"
+  become: yes
+  roles:
+  - mysql

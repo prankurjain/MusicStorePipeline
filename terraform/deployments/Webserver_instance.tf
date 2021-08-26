@@ -1,5 +1,7 @@
 provider "aws" {
     region = var.region_webserver
+    shared_credentials_file = "/.aws/credentials"
+    profile = "testing"
 }
 
 resource "aws_security_group" "Webserver_SG" {
@@ -10,6 +12,18 @@ resource "aws_security_group" "Webserver_SG" {
         from_port = 80
         protocol = "TCP"
         to_port = 80
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 3306
+        protocol = "TCP"
+        to_port = 3306
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 8080
+        protocol = "TCP"
+        to_port = 8080
         cidr_blocks = ["0.0.0.0/0"]
     }
 
@@ -27,6 +41,11 @@ resource "aws_security_group" "Webserver_SG" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 }
+
+# data "aws_eip" "my_instance_eip" {
+#   public_ip ="3.17.21.34"
+# }
+
 
 resource "aws_instance" "Webserver_Instance" {
         instance_type = var.type_webserver
@@ -48,13 +67,35 @@ resource "aws_instance" "Webserver_Instance" {
     inline = [
       "sudo sleep 30",
       "sudo apt-get update -y",
-      "sudo apt-get install python openssh-server -y"
+      # "sudo apt-get install python openssh-server sshpass -y"
+      "curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -",
+      "sudo apt install nodejs",
+      "sudo apt-get install python3 openssh-server -y"
     ]
 
   }
   provisioner "local-exec" {
-    command = "ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.pvt_key_name} ./../../ansible-musicstoreFrontend/helloworld.yaml" 
+    # command = "ansible-playbook -u ubuntu -i '${self.public_ip},' --private-key ${var.pvt_key_name} ./../../ansible-musicstoreFrontend/helloworld.yaml" 
+     command = <<EOT
+       > jenkins-ci.ini;
+       echo "[jenkins-ci]"|tee -a jenkins-ci.ini;
+       export ANSIBLE_HOST_KEY_CHECKING=False;
+       chmod 400 ${var.pvt_key_name};
+       echo "${aws_instance.Webserver_Instance.public_ip}"|tee -a jenkins-ci.ini;
+       > local_url.ts;
+       echo "export class LocalUrl{
+	     static localurl:String='${aws_instance.Webserver_Instance.public_ip}';
+       }
+       "| tee -a local_url.ts;
+       
+       ansible-playbook --key-file=${var.pvt_key_name} -i jenkins-ci.ini -u ubuntu ./../../ansible-musicstoreFrontend/helloworld.yaml -vvv
+     EOT
   }
 
 }
 
+
+# resource "aws_eip_association" "my_eip_association" {
+#   instance_id   = aws_instance.Webserver_Instance.id
+#   allocation_id = data.aws_eip.my_instance_eip.id
+# }
