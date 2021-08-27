@@ -1,0 +1,139 @@
+<!-- 
+<div class="card my-5">
+    <div class="card-body">
+        <form [formGroup]="addSong" >
+            <div class="form-group">
+                <label for="songName">Song Name</label>
+                <input type="text" class="form-control" id="songName" formControlName="songName" placeholder="Enter Song name">
+            </div>
+            <div class="alert alert-danger"> Song Name is required</div>
+            <div class="form-group">
+                <label for="songArtist">Artist Name</label>
+                <input type="text" class="form-control" id="songArtist" formControlName="songArtist" placeholder="Enter the Artist Name">
+            </div>
+            <div class="alert alert-danger">Artist Name is required</div>
+
+            <div class="form-group">
+                <label for="songLocation">Song Location</label>
+                <input type="text" class="form-control" id="songLocation" formControlName="songLocation" placeholder="Enter Song Location">
+            </div>
+            <div class="alert alert-danger"> Song Location is required</div>
+
+            <div class="form-group">
+                <label for="songAlbum">Song Album</label>
+                <input type="text" class="form-control" id="songAlbum" formControlName="songAlbum" placeholder="Enter Song Album">
+            </div>
+            <div class="alert alert-danger"> Song Album is required</div>
+
+            <div class="form-group">
+                <label for="songDuration">Song Duration</label>
+                <input type="text" class="form-control" id="songDuration" formControlName="songDuration" placeholder="Enter Song Duration">
+            </div>
+            <div class="alert alert-danger"> Song Duration is required</div>
+
+
+            <div class="form-group">
+                <label for="songTags">Song Tags</label>
+                <input type="text" class="form-control" id="songTags" formControlName="songTags" placeholder="Enter Song Tags">
+            </div>
+            <div class="alert alert-danger"> Song Tags is required</div>
+
+            <button type="submit" class="btn btn-info"  (click)="onSubmit()">Submit</button>
+            <button  style="margin:10px" (click)="clear()" class="btn btn-info" >Reset</button>
+            
+           
+            
+            <button style="margin:10px"  routerLink="/"  class="btn btn-info">Home</button>
+        </form>
+        <p>{{message}}</p>
+    </div>
+</div> -->
+
+
+<div class="boostrap-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col" style="margin-right: 20%;" >
+                <h1>Enter Song Details</h1>
+                <form [formGroup]="addSong" >
+                    <mat-form-field class="input-width" appearance="outline">
+                        <mat-label>Song Name</mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="song.songName"
+                          required
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="Enter Here"
+                        />
+                      </mat-form-field>
+
+                      <mat-form-field class="input-width"  appearance="outline">
+                        <mat-label>Artist Name</mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="song.songArtist"
+                          required
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="Enter Here"
+                        />
+                      </mat-form-field>
+
+                      <mat-form-field class="input-width" appearance="outline">
+                        <mat-label>Song Location</mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="song.songLocation"
+                          required
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="Enter Here"
+                        />
+                      </mat-form-field>
+
+                      <mat-form-field class="input-width" appearance="outline">
+                        <mat-label>Song Album</mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="song.songAlbum"
+                          required
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="Enter Here"
+                        />
+                      </mat-form-field>
+
+                      <mat-form-field class="input-width"  appearance="outline">
+                        <mat-label>Song Duration</mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="song.songDuration"
+                          required
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="Enter Here"
+                        />
+                      </mat-form-field>
+
+                      <mat-form-field class="input-width" appearance="outline">
+                        <mat-label>Song Tag</mat-label>
+                        <input
+                          matInput
+                          [(ngModel)]="song.songTags"
+                          required
+                          [ngModelOptions]="{ standalone: true }"
+                          placeholder="Enter Here"
+                        />
+                      </mat-form-field>
+                   
+                      <div class="container text-center">
+                        <button mat-raised-button type="submit"  color="primary" (click)="onSubmit()">
+                         Submit
+                        </button>
+                        <button mat-raised-button type="reset" style="margin-left: 10px;" color="primary" (click)="clear()">
+                            Reset
+                           </button>
+                      </div>
+                      
+                      
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

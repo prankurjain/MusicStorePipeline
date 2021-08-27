@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: prankurjain/spring-mysql
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-root-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-root-password
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: backend-configmap
+              key: host
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: backend-configmap
+              key: dbname
+         
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: backend-service
+  labels:
+    name: backend
+spec:
+  ports:
+    - nodePort: 30001
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: backend
+  type: NodePort

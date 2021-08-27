@@ -1,0 +1,63 @@
+<mat-toolbar color="accent">
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon color='accent'>menu</mat-icon>
+  </button>
+  <a href="/" style="text-decoration: none;color: azure;">
+  <span>Music Store</span>
+</a>
+  <span class="example-spacer"></span>
+
+  <a *ngIf="role=='normal' && isLoggedIn"
+  routerLink='/userdashboard'
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon"
+    style="text-decoration: none;color: azure;"
+  >
+    Dashboard
+</a>
+
+<a *ngIf="role=='admin' && isLoggedIn"
+  routerLink='/admindashboard'
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon"
+    style="text-decoration: none;color: azure;"
+  >
+    Dashboard
+</a>
+
+
+  <a *ngIf="!isLoggedIn"
+  routerLink='/login'
+    mat-icon-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon"
+    style="text-decoration: none;color: azure;"
+  >
+    Login
+</a>
+  <a *ngIf="!isLoggedIn"
+  routerLink="/signup"
+    mat-icon-button
+    class="example-icon ml10"
+    aria-label="Example icon-button with share icon"
+    style="text-decoration: none;color: azure;"
+  >
+   Register 
+</a>
+<a *ngIf="isLoggedIn"
+routerLink="/signup"
+  mat-icon-button
+  class="example-icon ml10"
+  aria-label="Example icon-button with share icon"
+  style="text-decoration: none;color: azure;"
+  (click)=logout()
+>
+ Logout
+</a>
+</mat-toolbar>

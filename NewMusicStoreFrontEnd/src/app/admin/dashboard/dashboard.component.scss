@@ -1,0 +1,9 @@
+.vertical {
+    border-left: 1px solid black;
+    height: 400px;
+    position:absolute;
+    left: 50%;
+}
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }

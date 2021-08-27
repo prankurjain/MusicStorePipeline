@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-configmap
+data:
+  database_Url: jdbc:mysql://localhost:3306/musicstore?createDatabaseIfNotExist=true&useSSL=true&requireSSL=false
+  host: localhost
+  dbname: musicstore

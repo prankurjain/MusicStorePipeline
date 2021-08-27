@@ -1,0 +1,60 @@
+<!-- <div class="bootstrap-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ">
+                <h3>Hello from col1</h3>
+            </div>
+            <div class = "vertical mt10"></div>
+            <div class="col-md-6 text-center">
+                <h3>Give Co-admin Role</h3>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                              
+                                <form  (ngSubmit)="giveAccess()">
+                                  <mat-form-field style="width: 70%;margin-left: 30px;" class="text-center "appearance="outline">
+                                    <mat-label>Username</mat-label>
+                                    <input
+                                      matInput
+                                      [(ngModel)]="username"
+                                      required
+                                      [ngModelOptions]="{ standalone: true }"
+                                      placeholder="Enter Here"
+                                    />
+                                  </mat-form-field>
+                                  
+        
+
+                                  <div class="container text-center">
+                                    <button mat-raised-button type="submit" color="primary">
+                                      Give Access
+                                    </button>
+                                  </div>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="bootstrap-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Menu</h4>
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-8 text-center full-width">
+        
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

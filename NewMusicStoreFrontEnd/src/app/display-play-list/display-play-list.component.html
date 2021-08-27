@@ -1,0 +1,29 @@
+<div class="form-group">
+    <label for="playlistname">PlayListName</label>
+    <input type="text" class="form-control" id="playlistname" name="playlistname" placeholder="Enter playList name">
+    <button type="submit" style="margin:10px" (click)="displayPlayList()"   class="btn btn-info">Submit</button>
+</div>
+
+
+<div class="card my-5">
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    
+                    
+                    <th scope="col">SongName</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let song of name">
+                    
+                    <td>{{ song}}</td>
+
+                </tr>
+            </tbody>
+
+          
+
+        </table>

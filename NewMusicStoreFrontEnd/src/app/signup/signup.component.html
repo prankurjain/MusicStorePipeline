@@ -1,0 +1,47 @@
+<div class="bootstrap-wrapper">
+  <div class="container">
+    <div class="row" style="margin-top: 20px">
+      <div class="col-md-6 offset-md-3">
+        <h4 class="text-center">Register Here</h4>
+        <mat-card>
+        <form  [formGroup]="userForm" (ngSubmit)="formSubmit()">
+            
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" placeholder="Enter Here" />
+          </mat-form-field>
+
+           <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input [(ngModel)]="user.password" type="password" [ngModelOptions]="{standalone: true}" matInput placeholder="Enter Here" />
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input [(ngModel)]="user.firstName" [ngModelOptions]="{standalone: true}" matInput placeholder="Enter Here" />
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input [(ngModel)]=user.lastName [ngModelOptions]="{standalone: true}" matInput placeholder="Enter Here" />
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input [(ngModel)]=user.email type="email" [ngModelOptions]="{standalone: true}" matInput placeholder="Enter Here" />
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Phone</mat-label>
+            <input [(ngModel)]=user.phone type="number" [ngModelOptions]="{standalone: true}" matInput placeholder="Enter Here" />
+          </mat-form-field> 
+
+          <div class="container text-center">
+            <button mat-raised-button type="submit" color="primary">Register</button>
+          </div>
+        </form>
+      </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
