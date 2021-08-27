@@ -96,8 +96,8 @@ resource "aws_instance" "Webserver_Instance" {
       "sudo sleep 30",
       "sudo apt-get update -y",
       # "sudo apt-get install python openssh-server sshpass -y"
-      "curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -",
-      "sudo apt install nodejs",
+     # "curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -",
+     # "sudo apt install nodejs",
       "sudo apt-get install python3 openssh-server -y"
     ]
 
@@ -112,7 +112,7 @@ resource "aws_instance" "Webserver_Instance" {
        echo "${aws_instance.Webserver_Instance.public_ip}"|tee -a jenkins-ci.ini;
        > local_url.ts;
        echo "export class LocalUrl{
-	     static localurl:String='${aws_instance.Webserver_Instance.public_ip}';
+	     static localurl:String='http://${aws_instance.Webserver_Instance.public_ip}';
        }
        "| tee -a local_url.ts;
        

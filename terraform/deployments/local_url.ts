@@ -1,4 +1,4 @@
 export class LocalUrl{
-	     static localurl:String='18.218.8.114';
+	     static localurl:String='http://3.139.85.79';
        }
        

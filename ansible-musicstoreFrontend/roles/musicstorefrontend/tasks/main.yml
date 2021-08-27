@@ -1,44 +1,20 @@
 ---
 # tasks file for musicstorefrontend
-# - name : Apt get update
-#   shell: apt update
 
-# - name : Apt get update
-#   shell: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-  
-# - name : source bashrc
-#   # sudo: no   
-#   shell: source ~/.bashrc 
-#   args:
-#     executable: /bin/bash
-
-# - name: bashrc
-#   shell: source ~/.bashrc
-
-# - name: install node
-#   shell: sudo nvm install v14.10.0
-#   args:
-#     chdir: "/root/"
-
-# - name: Install node js
-#   apt:
-#     name: nodejs
-#     state: latest
-
-- shell: node -v
-  register: shellout2
-- debug: var=shellout2.stdout
+# - shell: node -v
+#   register: shellout2
+# - debug: var=shellout2.stdout
 
 # - name: install npm
   # apt:
   #   name: npm
   #   state: present
 
-- name: Install Angular.js
-  npm:
-    name: "@angular/cli"
-    global: yes
-    state: present
+# - name: Install Angular.js
+#   npm:
+#     name: "@angular/cli"
+#     global: yes
+#     state: present
 
 - name: Install nginx server
   apt: 
@@ -62,15 +38,21 @@
     dest: /etc/nginx/sites-enabled/code
     state: link
 
+# - name : Copy local url ts file in files folder
+#   copy:
+#     src: "{{playbook_dir}}/../terraform/deployments/local_url.ts"
+#     dest: "{{role_path}}/files/"
+
 - name : Copy local url ts file in files folder
-  copy:
-    src: "{{playbook_dir}}/../terraform/deployments/local_url.ts"
-    dest: "{{role_path}}/files/"
+  local_action: ansible.builtin.command cp {{playbook_dir}}/../terraform/deployments/local_url.ts {{role_path}}/files/
 
 - name : Copy local url ts file in angular folder
-  copy:
-    src: "{{role_path}}/files/local_url.ts"
-    dest: "{{playbook_dir}}/../NewMusicStoreFrontEnd/src/dto/"
+  local_action: ansible.builtin.command cp {{role_path}}/files/local_url.ts {{playbook_dir}}/../NewMusicStoreFrontEnd/src/dto/
+
+# - name : Copy local url ts file in angular folder
+#   copy:
+#     src: "{{role_path}}/files/local_url.ts"
+#     dest: "{{playbook_dir}}/../NewMusicStoreFrontEnd/src/dto/"
 
 
 # - name: Copy ts file to angualar frontend directory
@@ -78,9 +60,9 @@
 #     src: ./files/local_url.ts
 #     dest: ../../../NewMusicStoreFrontEnd/src/dto/local_url.ts
 
-- shell: pwd
-  register: shellout2
-- debug: var=shellout2.stdout
+# - shell: pwd
+#   register: shellout2
+# - debug: var=shellout2.stdout
 
 
   #- name: Run ng build
@@ -93,14 +75,18 @@
   # args:
   #   chdir: "{{playbook_dir}}/../NewMusicStoreFrontEnd/"
 
-- name : Copy Music Store folder in files directory
-  copy:
-    src: "{{playbook_dir}}/../NewMusicStoreFrontEnd/dist/MusicStore"
-    dest: "{{role_path}}/files/"
+# - name : Copy Music Store folder in files directory
+#   copy:
+#     src: "{{playbook_dir}}/../NewMusicStoreFrontEnd/dist/MusicStore"
+#     dest: "{{role_path}}/files/"
+
+- name: Copy Music Store folder in files directory
+  local_action: ansible.builtin.command cp -r {{playbook_dir}}/../NewMusicStoreFrontEnd/dist/MusicStore {{role_path}}/files/
+ 
 
 - name: copy index.html file
   copy:
-    src: ./files/MusicStore
+    src: "{{role_path}}/files/MusicStore"
     dest: /var/www/
 
 - name: Start nginx
